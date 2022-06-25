@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block title %} HOME PAGE {% endblock %}
+{% block content %}
+<h1>This is the home page</h1>
+<div>{% for row in board %}
+    <div>
+        {{row}}
+    </div>
+    {% endfor %}
+</div>
+
+<form id="boggle-form">
+    <input id="boggle-guess" type="text" name="boggle-guess" placeholder="Guess Word">
+    <button>Submit Guess</button>
+</form>
+{% endblock %}
