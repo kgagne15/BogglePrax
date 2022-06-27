@@ -1,6 +1,6 @@
-console.log('hello')
+console.log('hello');
 
-
+let $score = $('#current-score');
 
 
 $('#boggle-form').on('submit', async function(e){
@@ -29,13 +29,44 @@ $('#boggle-form').on('submit', async function(e){
 
 async function submitScore(word) {
     let score = word.length;
+    let highscore = 0; 
     // console.log(score)
     const res = await axios.post('/score', {score: score})
-    console.log(res.data.score, 'this is javascript')
-    let sessionScore = res.data.score
-    let $item = `
-    <p> Current Boggle Score = ${sessionScore}
-    `
-    $('#boggle-score').append($item)
+    console.log(res.data.score, res.data.brokeRecord)
+    if (res.data.score !== undefined) {
+        let sessionScore = res.data.score
+
+        let $item = `
+            ${sessionScore}
+        `
+        $score.text($item)
+    } else {
+        console.log('you have reached the else')
+        let brokenRecord = res.data.brokeRecord
+        console.log('brokenRecord', brokenRecord)
+        // let $item = `
+        //     ${brokenRecord}
+        // `
+        // console.log($item)
+        $score.text(brokenRecord)
+        // $('#current-score').append($item)
+
+        // let $newRecord = `
+        // <h2>You broke the highest record!</h2>
+        // `
+        $('body').append('<h2>You broke the highest record!</h2>')
+        $('#high-score').text(res.data.brokeRecord)
+    }
+    // console.log(res.data.score, 'this is javascript')
+    // let sessionScore = res.data.score
+
+    // let $item = `
+    //     ${sessionScore}
+    // `
+    // $score.text($item)
+    // let $item = `
+    // <p> Current Boggle Score = ${sessionScore}
+    // `
+    // $('#boggle-score').append($item)
     
 }

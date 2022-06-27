@@ -1,6 +1,6 @@
 from crypt import methods
 from boggle import Boggle
-from flask import Flask, render_template, session, request, jsonify
+from flask import Flask, render_template, session, request, jsonify, flash
 
 boggle_game = Boggle()
 app = Flask(__name__)
@@ -8,11 +8,13 @@ app.config["SECRET_KEY"] = "jessicachastain"
 # session['score'] = 0
 
 
+
 @app.route('/')
 def home_page():
     session['board'] = boggle_game.make_board()
+    highscore = session.get("highscore", 0)
     session['score'] = 0
-    return render_template('index.html', board=session['board'])
+    return render_template('index.html', board=session['board'], highscore=highscore)
 
 @app.route('/check-guess')
 def boggle_guess():
@@ -26,7 +28,20 @@ def boggle_guess():
 @app.route('/score', methods=['POST'])
 def score():
     # score = session['score']
+    
     score = request.json['score']
+    highscore = session.get("highscore", 0)
     session['score'] += score
-    print(session['score'])
-    return jsonify({'score': session['score']})
+    if session['score'] > highscore:
+        highscore = session['score']
+        session['highscore'] = highscore
+        return jsonify(brokeRecord=highscore)
+    else: 
+        return jsonify({'score': session['score']})
+    # print(session['score'], highscore)
+    # #return jsonify(brokeRecord=session['score'] > highscore)
+
+    # if session
+    # return jsonify({'score': session['score']}, brokeRecord=session['score'] > highscore)
+
+
