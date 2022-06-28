@@ -32,14 +32,15 @@ async function submitScore(word) {
     let highscore = 0; 
     // console.log(score)
     const res = await axios.post('/score', {score: score})
-    console.log(res.data.score, res.data.brokeRecord)
-    if (res.data.score !== undefined) {
+    console.log(res.data.score, res.data.brokeRecord, res)
+    if (res.data.score <= res.data.brokeRecord) {
         let sessionScore = res.data.score
 
         let $item = `
             ${sessionScore}
         `
         $score.text($item)
+        $('#games-played').text(res.data.games_played)
     } else {
         console.log('you have reached the else')
         let brokenRecord = res.data.brokeRecord
@@ -56,6 +57,7 @@ async function submitScore(word) {
         // `
         $('body').append('<h2>You broke the highest record!</h2>')
         $('#high-score').text(res.data.brokeRecord)
+        
     }
     // console.log(res.data.score, 'this is javascript')
     // let sessionScore = res.data.score
