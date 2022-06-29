@@ -1,6 +1,12 @@
-console.log('hello');
+console.log('hello ello');
 
 let $score = $('#current-score');
+
+
+setTimeout(function(){
+    return alert('test two')
+}, 3000)
+
 
 
 $('#boggle-form').on('submit', async function(e){
