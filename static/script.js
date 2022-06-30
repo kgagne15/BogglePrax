@@ -4,7 +4,12 @@ let $score = $('#current-score');
 
 
 setTimeout(function(){
-    return alert('test two')
+    $('#sub-btn').prop('disabled', true)
+    let $item = `
+    <h2>I'm sorry, your time is up</h2>
+    `
+    $('body').append($item)
+    
 }, 3000)
 
 
