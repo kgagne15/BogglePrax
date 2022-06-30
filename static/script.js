@@ -10,7 +10,7 @@ setTimeout(function(){
     `
     $('body').append($item)
     
-}, 3000)
+}, 60000)
 
 
 
